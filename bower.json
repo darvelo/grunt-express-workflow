@@ -1,0 +1,14 @@
+{
+  "name": "webapp",
+  "version": "0.0.0",
+  "dependencies": {
+    "backbone": "~1.0.0",
+    "handlebars": "~1.0.0",
+    "requirejs": "~2.1.5",
+    "modernizr": "~2.6.2",
+    "jquery": "~1.9.1",
+    "lodash": "~1.2.1",
+    "json2": "latest"
+  },
+  "devDependencies": {}
+}

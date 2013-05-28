@@ -1,0 +1,11 @@
+!!! 5
+html
+  head
+  body
+    if (data)
+      h1 Error #{data.status}
+      if (message)
+        .error
+          pre #{message}
+      if (dev && settings['verbose errors'])
+          pre= data.stack

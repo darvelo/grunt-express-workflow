@@ -1,0 +1,20 @@
+extends layout
+
+block title
+  title My Awesome App!
+
+block css
+  link(rel='stylesheet', href='/styles/main.css')
+  link(rel='stylesheet', href='/styles/app.css')
+
+block append top-script
+
+
+block main
+
+
+block append bottom-script
+  - if (dev)
+    script(src='/components/requirejs/require.js', data-main='/scripts/app/main')
+  - else
+    script(src='/scripts/app/main.js')
