@@ -14,7 +14,14 @@ block main
 
 
 block append bottom-script
+  script
+    !{bootstrap}
+
   - if (dev)
-    script(src='/components/requirejs/require.js', data-main='/scripts/app/main')
+    //- has.js is used to branch requirejs modules' returned values in a test environment like mocha.
+        since the modules themselves contain has() tests, we need to include them in the dev environment.
+        during a build, r.js will optimize out the has() tests, so has.js is not needed in production.
+    script(src='/components/has/has.js')
+    script(src='/components/requirejs/require.js', data-main='/scripts/app/config')
   - else
     script(src='/scripts/app/main.js')

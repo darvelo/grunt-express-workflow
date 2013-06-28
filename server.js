@@ -9,6 +9,16 @@ var app = express();
 
 
 /*
+ * App methods and libraries
+ */
+app.db = require('./lib/database');
+app.api = require('./lib/api');
+
+// propagate app instance throughout app methods
+app.api.use(app);
+
+
+/*
  * Set app settings depending on environment mode.
  * Express automatically sets the environment to 'development'
  */
@@ -104,7 +114,7 @@ app.use(function(req, res, next) {
 // would remain being executed, however here
 // we simply respond with an error page.
 
-app.use(function(err, req, res, next){
+app.use(function(err, req, res, next) {
   // we may use properties of the error object
   // here and next(err) appropriately, or if
   // we possibly recovered from the error, simply next().
@@ -148,9 +158,22 @@ app.use(function(err, req, res, next){
  * Routes
  */
 app.get('/', function(req, res, next) {
-  res.render('index', { dev: app.get('env') === 'development' });
+  // we use a direct database connection here
+  // because the API would have sent JSON itself
+  app.db.getPeople(function (err, people) {
+    if (err) {
+      return next(err);
+    }
+
+    res.render('index', {
+      dev: app.get('env') === 'development',
+      bootstrap: 'var bootstrap = ' + JSON.stringify(people) + ';',
+    });
+  });
 });
 
+app.get('/api/people', app.api.people.getAll);
+app.get('/api/peopleError', app.api.people.getError);
 
 /*
  * Status Code pages

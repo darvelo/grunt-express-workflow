@@ -16,7 +16,9 @@ function (Backbone, AppView, appConfig, appEventHandlers, _) {
     this.addListeners();
     this.createViews();
 
-    this.resetData();
+    if (window.bootstrap) {
+      this.resetData(window.bootstrap);
+    }
   };
 
   App.prototype = {
@@ -44,15 +46,7 @@ function (Backbone, AppView, appConfig, appEventHandlers, _) {
       this.views.app.render();
     },
 
-    resetData: function resetData () {
-      var data = [
-        { "name": "Fred" },
-        { "name": "Scooby" },
-        { "name": "Shaggy" },
-        { "name": "Velma" },
-        { "name": "Daphne" },
-      ];
-
+    resetData: function resetData (data) {
       this.collections.myCollection.reset(data);
     },
   };
