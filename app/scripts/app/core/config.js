@@ -1,5 +1,5 @@
 define([
-  'json2',
+  'json3',
 ],
 
 function (JSON) {

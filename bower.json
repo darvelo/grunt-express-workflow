@@ -3,12 +3,15 @@
   "version": "0.0.0",
   "dependencies": {
     "backbone": "~1.0.0",
-    "handlebars": "~1.0.0",
     "requirejs": "~2.1.5",
     "modernizr": "~2.6.2",
     "jquery": "~1.9.1",
     "lodash": "~1.2.1",
-    "json2": "latest"
+    "json3": "~3.2.5",
+    "sinon-chai": "~2.4.0",
+    "chai": "~1.7.1",
+    "has": "latest",
+    "sinonjs": "~1.7.1"
   },
   "devDependencies": {}
 }
