@@ -11,7 +11,8 @@
     "sinon-chai": "~2.4.0",
     "chai": "~1.7.1",
     "has": "latest",
-    "sinonjs": "~1.7.1"
+    "sinonjs": "~1.7.1",
+    "handlebars": "~1.0.0"
   },
   "devDependencies": {}
 }
