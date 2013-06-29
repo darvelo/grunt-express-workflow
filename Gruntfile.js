@@ -21,11 +21,14 @@ module.exports = function (grunt) {
     var nodemonIgnoredFiles = [
         'README.md',
         'Gruntfile.js',
+        'node-inspector.js',
+        'karma.conf.js',
         '/.git/',
         '/node_modules/',
         '/app/',
         '/dist/',
         '/test/',
+        '/coverage/',
         '/temp/',
         '/.tmp',
         '/.sass-cache',
@@ -67,6 +70,30 @@ module.exports = function (grunt) {
                 files: [
                     '{.tmp,<%= yeoman.app %>}/scripts/**/*.js',
                 ],
+            },
+            karma: {
+                files: [
+                    '{.tmp,<%= yeoman.app %>}/scripts/**/*.js',
+                    'test/frontend/**/*.js',
+                ],
+                tasks: ['karma:frontend:run'],
+                options: {
+                    livereload: false,
+                },
+            },
+            coverageBackend: {
+                files: [
+                    '!Gruntfile.js',
+                    '!node-inspector.js',
+                    '!karma.conf.js',
+                    '*.js',
+                    'lib/**/*.js',
+                    'test/backend/**/*.js',
+                ],
+                tasks: ['coverageBackend'],
+                options: {
+                    livereload: false,
+                },
             },
             css: {
                 files: [
@@ -163,10 +190,21 @@ module.exports = function (grunt) {
             app: {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
-                    // `name` and `out` set by grunt-usemin
                     baseUrl: 'app/scripts/app',
+                    // uses `app/scripts/app/main.js` as a starting point for optimization
+                    name: 'main',
+                    // final output file after optimization (uglifying, pruning has() tests, etc.)
+                    out: 'dist/scripts/app/main.js',
+                    // notifies the optimizer that has() test branches with this/these variables can be optimized out
+                    // http://requirejs.org/docs/optimization.html#hasjs
+                    has: {
+                        // a has() test for unit testing. requirejs modules are able to return different values.
+                        // http://arvelocity.com/running-an-express-server-with-grunt-and-yeoman-part-3/
+                        internalTest: false,
+                    },
                     paths: {
-                        json2: '../../components/json2/json2',
+                        json3: '../../components/json3/lib/json3',
+                        jquery: '../../components/jquery/jquery',
                         // needed for precompiled templates
                         handlebars: '../../components/handlebars/handlebars.runtime',
                         // templates are compiled from '/.tmp'!
@@ -176,10 +214,6 @@ module.exports = function (grunt) {
                         backbone: '../../components/backbone/backbone-min',
                     },
                     shim: {
-                        json2: {
-                            deps: [],
-                            exports: 'JSON',
-                        },
                         handlebars: {
                             deps: [],
                             exports: 'Handlebars',
@@ -416,15 +450,118 @@ module.exports = function (grunt) {
             nodeInspector: {
                 options: {
                     file: 'node-inspector.js',
+                    watchedExtensions: [
+                        'js',
+                        'coffee'
+                    ],
                     exec: 'node-inspector',
                     ignoredFiles: nodemonIgnoredFiles,
                 },
             },
         },
+        karma: {
+            options: {
+                configFile: 'karma.conf.js',
+                runnerPort: 9100,
+                // configure browsers that will work for you.
+                // it's also possible to specify scripts/binaries that will take a URL argument:
+                // browsers: ['/usr/bin/firefox'],
+                browsers: ['Firefox'],
+                // run karma in a child process so it doesn't block subsequent grunt tasks.
+                background: true,
+            },
+            // used during a build for a single run
+            continuous: {
+                background: false,
+                singleRun: true,
+            },
+            frontend: {
+                reporters: ['dots', 'coverage'],
+                coverageReporter: {
+                    type: 'html',
+                    dir: 'coverage/frontend/',
+                },
+                preprocessors: {
+                    '**/app/scripts/**/*.js': 'coverage',
+                },
+                exclude: [
+                    'app/scripts/app/config.js',
+                    'app/scripts/app/main.js',
+                ],
+            },
+        },
+        simplemocha: {
+            options: {
+                globals: [
+                    'sinon',
+                    'chai',
+                    'should',
+                    'expect',
+                    'assert',
+                    'AssertionError',
+                ],
+                timeout: 3000,
+                ignoreLeaks: false,
+                // grep: '*.spec',
+                ui: 'bdd',
+                reporter: 'spec'
+            },
+            backend: {
+                src: [
+                    // add chai and sinon globally
+                    'test/backend/support/globals.js',
+
+                    // tests
+                    'test/backend/**/*.spec.js',
+                ],
+            },
+        },
+    });
+
+    grunt.registerTask('coverageBackend', 'Test backend files as well as code coverage.', function () {
+        var done = this.async();
+
+        var path = './test/backend/runner.js';
+
+        var options = {
+            cmd: 'istanbul',
+            grunt: false,
+            args: [
+                'cover',
+                '--default-excludes',
+                '-x', 'app/**',
+                '--report', 'lcov',
+                '--dir', './coverage/backend',
+                path
+            ],
+            opts: {
+                // preserve colors for stdout in terminal
+                stdio: 'inherit',
+            },
+        };
+
+        function doneFunction(error, result, code) {
+            if (result && result.stderr) {
+                process.stderr.write(result.stderr);
+            }
+
+            if (result && result.stdout) {
+                grunt.log.writeln(result.stdout);
+            }
+
+            // abort tasks in queue if there's an error
+            done(error);
+        }
+
+        grunt.util.spawn(options, doneFunction);
     });
 
     grunt.registerTask('server', [
         'concurrent:server',
+
+        // start karma server
+        'karma:frontend',
+
         'concurrent:nodemon',
     ]);
 
@@ -437,8 +574,13 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
+
+        'karma:continuous',
+        'coverageBackend',
+
         'concurrent:dist',
         'uglify:dist',
+
         'useminPrepare',
 
         'cssmin',
