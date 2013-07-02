@@ -8,6 +8,17 @@ These files are meant to help you quickly get up and running using Grunt with Ex
 $ npm install -g yo node-inspector nodemon grunt-cli bower karma istanbul
 ```
 
+After installing the global dependencies above, run:
+
+```bash
+$ cd grunt-express-workflow
+$ npm install
+$ bower install
+$ grunt server
+```
+
+And you're ready to go!
+
 ## What's Included
 
 Popular client-side libraries included and configured:
