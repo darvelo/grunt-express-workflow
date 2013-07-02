@@ -38,13 +38,17 @@ require.config({
   },
 });
 
+// workaround for Chai with PhantomJS:
+// https://github.com/chaijs/chai/issues/107
+var should;
+
 require(['chai', 'sinon-chai', 'has'], function (chai, sinonChai, has) {
   window.chai = chai;
   chai.use(sinonChai);
 
   window.assert = chai.assert;
-  window.should = chai.should();
   window.expect = chai.expect;
+  should = chai.should();
 
   window.has = has;
 
