@@ -80,5 +80,5 @@ This and more in the companion [blog](http://arvelocity.com/2013/05/30/running-a
 
 ## Changelog
 
-0.2.0 - Namespaced Karma task targets in the Gruntfile as well as Istanbul coverage output files.
-0.1.0 - Added Karma, Mocha, and Istanbul for a full-featured frontend and backend test framework.
+* 0.2.0 - Namespaced Karma task targets in the Gruntfile as well as Istanbul coverage output files.
+* 0.1.0 - Added Karma, Mocha, and Istanbul for a full-featured frontend and backend test framework.
