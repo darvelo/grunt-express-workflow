@@ -1,6 +1,9 @@
 // Karma configuration
 // Generated on Fri Jun 21 2013 23:43:35 GMT-0400 (EDT)
 
+// this files tests the self-contained `app/scripts/app` RequireJS app.
+// another karma config file is needed for tests that run from a different RequireJS app config
+
 
 // base path, that will be used to resolve files and exclude
 basePath = '';
@@ -19,22 +22,24 @@ files = [
   {pattern: 'app/components/**/*.js', included: false},
   {pattern: 'app/scripts/**/*.js', included: false},
   {pattern: '.tmp/scripts/**/*.js', included: false},
-  {pattern: 'test/frontend/**/*.spec.js', included: false},
 
+  {pattern: 'test/frontend/app/**/*.spec.js', included: false},
+
+  // this line runs tests on the self-contained `app/scripts/app` RequireJS app.
+  // another karma config file is needed for tests to run on a different RequireJS app config
   'test/frontend/app/config.js',
 ];
 
 
 // list of files to exclude
-exclude = [
-  'app/scripts/app/config.js',
-  'app/scripts/app/main.js',
-];
+// -- overridden in Gruntfile karma task
+exclude = [];
 
 
 // use dolts reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit', 'teamcity'
 // CLI --reporters progress
+// -- overridden in Gruntfile karma task
 reporters = ['progress'];
 
 
@@ -45,6 +50,7 @@ port = 9876;
 
 // cli runner port
 // CLI --runner-port 9100
+// -- overridden in Gruntfile karma task
 runnerPort = 9100;
 
 
@@ -60,8 +66,8 @@ logLevel = LOG_INFO;
 
 
 // enable / disable watching file and executing tests whenever any file changes
-// - false since Grunt will take care of watching files
 // CLI --auto-watch --no-auto-watch
+// - false since Grunt will take care of watching files
 autoWatch = false;
 
 
@@ -74,6 +80,7 @@ autoWatch = false;
 // - PhantomJS
 // - IE (only Windows)
 // CLI --browsers Chrome,Firefox,Safari
+// -- overridden in Gruntfile karma task
 browsers = [];
 
 
@@ -84,6 +91,7 @@ captureTimeout = 60000;
 
 // Auto run tests on start (when browsers are captured) and exit
 // CLI --single-run --no-single-run
+// -- overridden in Gruntfile karma task
 singleRun = false;
 
 // report which specs are slower than 500ms

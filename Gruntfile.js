@@ -71,12 +71,13 @@ module.exports = function (grunt) {
                     '{.tmp,<%= yeoman.app %>}/scripts/**/*.js',
                 ],
             },
+            // put all karma targets into the `tasks` array
             karma: {
                 files: [
                     '{.tmp,<%= yeoman.app %>}/scripts/**/*.js',
                     'test/frontend/**/*.js',
                 ],
-                tasks: ['karma:frontend:run'],
+                tasks: ['karma:app:run'],
                 options: {
                     livereload: false,
                 },
@@ -198,8 +199,10 @@ module.exports = function (grunt) {
                     // notifies the optimizer that has() test branches with this/these variables can be optimized out
                     // http://requirejs.org/docs/optimization.html#hasjs
                     has: {
-                        // a has() test for unit testing. requirejs modules are able to return different values.
-                        // http://arvelocity.com/running-an-express-server-with-grunt-and-yeoman-part-3/
+                        // a has() test for unit testing. RequireJS modules are able to
+                        // return different values when unit tests set this variable to true
+                        //
+                        // http://arvelocity.com/2013/07/02/running-an-express-server-with-grunt-and-yeoman-part-3/
                         internalTest: false,
                     },
                     paths: {
@@ -461,35 +464,74 @@ module.exports = function (grunt) {
         },
         karma: {
             options: {
-                configFile: 'karma.conf.js',
-                runnerPort: 9100,
                 // configure browsers that will work for you.
                 // it's also possible to specify scripts/binaries that will take a URL argument:
                 // browsers: ['/usr/bin/firefox'],
+
+                // Currently available:
+                // - Chrome
+                // - ChromeCanary
+                // - Firefox
+                // - Opera
+                // - Safari (only Mac)
+                // - PhantomJS
+                // - IE (only Windows)
                 browsers: ['Firefox'],
                 // run karma in a child process so it doesn't block subsequent grunt tasks.
                 background: true,
             },
-            // used during a build for a single run
-            continuous: {
-                background: false,
-                singleRun: true,
-            },
-            frontend: {
+            // NoCoverage tasks are slightly faster
+            // Continous tasks are used for a single run, such as during a build
+
+            // `karma` task settings for testing the namespaced client-side app
+            app: {
+                configFile: 'karma.app.conf.js',
+                runnerPort: 9100,
+
                 reporters: ['dots', 'coverage'],
                 coverageReporter: {
                     type: 'html',
-                    dir: 'coverage/frontend/',
+                    dir: 'coverage/frontend/app/',
                 },
                 preprocessors: {
-                    '**/app/scripts/**/*.js': 'coverage',
+                    '**/app/scripts/app/**/*.js': 'coverage',
                 },
-                exclude: [
-                    'app/scripts/app/config.js',
-                    'app/scripts/app/main.js',
-                ],
+                // exclude: [],
+            },
+            appNoCoverage: {
+                configFile: 'karma.app.conf.js',
+                runnerPort: 9100,
+
+                reporters: ['dots'],
+            },
+            appContinuous: {
+                configFile: 'karma.app.conf.js',
+                runnerPort: 9100,
+
+                reporters: ['dots', 'coverage'],
+                coverageReporter: {
+                    type: 'html',
+                    dir: 'coverage/frontend/app/',
+                },
+                preprocessors: {
+                    '**/app/scripts/app/**/*.js': 'coverage',
+                },
+
+                background: false,
+                singleRun: true,
+            },
+            appContinuousNoCoverage: {
+                configFile: 'karma.app.conf.js',
+                runnerPort: 9100,
+
+                reporters: ['dots'],
+
+                background: false,
+                singleRun: true,
             },
         },
+        // simplemocha executes server-side tests
+        // without Istanbul Coverage, significantly faster
         simplemocha: {
             options: {
                 globals: [
@@ -560,22 +602,28 @@ module.exports = function (grunt) {
         'concurrent:server',
 
         // start karma server
-        'karma:frontend',
+        'karma:app',
 
         'concurrent:nodemon',
     ]);
 
     grunt.registerTask('test', [
-        'clean:server',
-        'concurrent:test',
-        'connect:test',
-        'mocha'
+        'concurrent:server',
+
+        // tests with coverage.
+        // the server-side coverage test is slower
+        'karma:appContinuous',
+        'coverageBackend',
+
+        // faster tests without Istanbul coverage
+        // 'karma:appContinuousNoCoverage',
+        // 'simplemocha:backend',
     ]);
 
     grunt.registerTask('build', [
         'clean:dist',
 
-        'karma:continuous',
+        'karma:appContinuous',
         'coverageBackend',
 
         'concurrent:dist',
