@@ -199,7 +199,7 @@ module.exports = function (grunt) {
                     // notifies the optimizer that has() test branches with this/these variables can be optimized out
                     // http://requirejs.org/docs/optimization.html#hasjs
                     has: {
-                        // a has() test for unit testing. RequireJS modules are able to
+                        // a has() assignment only for unit testing. RequireJS modules are able to
                         // return different values when unit tests set this variable to true
                         //
                         // http://arvelocity.com/2013/07/02/running-an-express-server-with-grunt-and-yeoman-part-3/
