@@ -1,6 +1,6 @@
 {
-  "name": "webapp",
-  "version": "0.0.0",
+  "name": "grunt-express-workflow",
+  "version": "0.2.0",
   "dependencies": {
     "backbone": "~1.0.0",
     "requirejs": "~2.1.5",
@@ -12,7 +12,8 @@
     "chai": "~1.7.1",
     "has": "latest",
     "sinonjs": "~1.7.1",
-    "handlebars": "~1.0.0"
+    "handlebars": "~1.0.0",
+    "normalize-css": "~2.1.2"
   },
   "devDependencies": {}
 }
