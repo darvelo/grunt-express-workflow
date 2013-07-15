@@ -1,32 +1,39 @@
 !!!5
 |<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-|<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-|<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
-|<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+|<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8">        <![endif]-->
+|<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9">               <![endif]-->
+|<!--[if gt IE 8]><!--> <html lang="en" class="no-js">                  <!--<![endif]-->
 head
   meta(charset='utf-8')
   meta(http-equiv='X-UA-Compatible', content='IE=edge')
+
   block title
     title
+
   meta(name='description', content='')
   meta(name='viewport', content='width=device-width')
+
   //- TODO : Place favicon.ico and apple-touch-icon.png in the root directory
   block css
-    link(rel='stylesheet', href='/styles/main.css')
+    - if (dev)
+      link(rel='stylesheet', href='/components/normalize-css/normalize.css')
+    - else
+      link(rel='stylesheet', href='/styles/vendor/normalize.css')
 
   block top-script
     - if (dev)
       script(src='/components/modernizr/modernizr.js')
     - else
       script(src='/scripts/vendor/modernizr.js')
+
 body
   //-
     Add your site or application content here
   block main
-
-  | <!--[if lt IE 7]>
-  | <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-  | <![endif]-->
+    //if lt IE 7
+      div.chromeframe
+        :markdown
+          You are using an **outdated** browser. Please [upgrade your browser](http://browsehappy.com/) or [activate Google Chrome Frame](http://www.google.com/chromeframe/?redirect=true) to improve your experience.
 
   block bottom-script
     //

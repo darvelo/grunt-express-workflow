@@ -1,0 +1,20 @@
+extends layout
+
+block title
+  title Just a Normal Page
+
+block append css
+  link(rel='stylesheet', href='/styles/normal.css')
+
+block append top-script
+
+
+block prepend main
+  .container
+    include includes/header
+
+    .content
+
+    include includes/footer
+
+block append bottom-script

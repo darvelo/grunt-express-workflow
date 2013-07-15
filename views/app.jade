@@ -3,15 +3,19 @@ extends layout
 block title
   title My Awesome App!
 
-block css
-  link(rel='stylesheet', href='/styles/main.css')
+block append css
   link(rel='stylesheet', href='/styles/app.css')
 
 block append top-script
 
 
-block main
+block prepend main
+  .container
+    include includes/header
 
+    .content
+
+    include includes/footer
 
 block append bottom-script
   script
