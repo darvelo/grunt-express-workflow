@@ -3,10 +3,9 @@
 /*
  * Express Dependencies
  */
-
 var express = require('express');
 var app = express();
-
+var port = 9000;
 
 /*
  * App methods and libraries
@@ -23,15 +22,19 @@ app.api.use(app);
  * Express automatically sets the environment to 'development'
  */
 if (process.env.NODE_ENV === 'production' || process.argv[2] === 'production') {
-  console.log('setting production env variable');
+  console.log('Setting production env variable');
   app.set('env', 'production');
+
+  // this 'dev' variable is available to Jade templates
+  app.locals.dev = false;
+} else {
+  app.locals.dev = true;
 }
 
 
 /*
  * Config
  */
-
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
@@ -141,7 +144,6 @@ app.use(function(err, req, res, next) {
 
   if (req.accepts('html')) {
     res.render('errors', {
-      dev: app.get('env') === 'development',
       data: err,
       message: err.message
     });
@@ -165,11 +167,14 @@ app.get('/', function(req, res, next) {
       return next(err);
     }
 
-    res.render('index', {
-      dev: app.get('env') === 'development',
+    res.render('app', {
       bootstrap: 'var bootstrap = ' + JSON.stringify(people) + ';',
     });
   });
+});
+
+app.get('/normal', function(req, res, next) {
+  res.render('normal');
 });
 
 app.get('/api/people', app.api.people.getAll);
@@ -198,5 +203,5 @@ app.get('/500', function(req, res, next){
 });
 
 
-app.listen(9000);
-console.log('Express started on port 9000');
+app.listen(port);
+console.log('Express started on port ' + port);
