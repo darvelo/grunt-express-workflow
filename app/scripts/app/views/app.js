@@ -8,7 +8,7 @@ function (Backbone, template, $) {
   'use strict';
 
   var AppView = Backbone.View.extend({
-    className: 'container',
+    el: '.content',
     template: template,
 
     events: {
@@ -26,7 +26,6 @@ function (Backbone, template, $) {
     },
 
     render: function render () {
-      $('body').prepend(this.$el);
       return this;
     },
 
