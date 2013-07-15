@@ -1,0 +1,16 @@
+/*
+ * here we create a spritesheet from all scooby images.
+ * the spritesheet will be compiled into `.tmp/` and after
+ * a `grunt build`, will be copied to `dist/images/sprites`,
+ * rather than the original, separate images themselves.
+ */
+@import 'sprites/character/*.png';
+
+.cards {
+  .scooby { @include character-sprite(scooby); }
+  .fred { @include character-sprite(fred); }
+  .daphne { @include character-sprite(daphne); }
+  .velma { @include character-sprite(velma); }
+  .shaggy { @include character-sprite(shaggy); }
+  .sandwich { @include character-sprite(sandwich); }
+}

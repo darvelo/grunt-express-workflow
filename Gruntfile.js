@@ -124,6 +124,15 @@ module.exports = function (grunt) {
                     ]
                 }]
             },
+            compassSprites: {
+                files: [{
+                    src: [
+                        '<%= yeoman.dist %>/images/sprites/*',
+                        '!<%= yeoman.dist %>/images/sprites/*.*',
+                    ],
+                }],
+            },
+            useminHTML: ['<%= yeoman.dist %>/usemin.html'],
             server: ['.tmp'],
         },
         jshint: {
@@ -173,12 +182,17 @@ module.exports = function (grunt) {
                 javascriptsDir: '<%= yeoman.app %>/scripts',
                 fontsDir: '<%= yeoman.app %>/styles/fonts',
                 importPath: 'app/components',
-                relativeAssets: true
+                // advanced compass config necessary for spritemaps
+                // https://gist.github.com/passy/5270050
+                // https://github.com/yeoman/yeoman/issues/419
+                config: 'compass.rb',
+                // `relativeAssets: true` messes up spritemap url() references in CSS
+                relativeAssets: false,
             },
             dist: {},
             server: {
                 options: {
-                    debugInfo: true
+                    debugInfo: true,
                 }
             }
         },
@@ -289,6 +303,14 @@ module.exports = function (grunt) {
                     cwd: '<%= yeoman.app %>/images',
                     src: '**/*.{png,jpg,jpeg}',
                     dest: '<%= yeoman.dist %>/images'
+                },
+                {
+                    // Copy generated sprites over to the dist/
+                    // folder during the build step.
+                    expand: true,
+                    cwd: '.tmp/images/sprites',
+                    src: '{,*/}*.png',
+                    dest: '<%= yeoman.dist %>/images/sprites',
                 }]
             }
         },
@@ -305,13 +327,14 @@ module.exports = function (grunt) {
         cssmin: {
             dist: {
                 files: {
-                    '<%= yeoman.dist %>/styles/main.css': [
-                        // list any css files you'd like to combine/minify into main.css here
-                        '.tmp/styles/main.css',
+                    '<%= yeoman.dist %>/styles/vendor/normalize.css': '<%= yeoman.app %>/components/normalize-css/normalize.css',
+                    '<%= yeoman.dist %>/styles/normal.css': [
+                        // list any css files you'd like to combine/minify into normal.css here
+                        '.tmp/styles/normal.css',
                     ],
                     '<%= yeoman.dist %>/styles/app.css': [
                         '.tmp/styles/app.css',
-                    ]
+                    ],
                 }
             }
         },
@@ -376,9 +399,8 @@ module.exports = function (grunt) {
             ],
             dist: [
                 'coffee',
-                'compass:dist',
                 'handlebars:app',
-                'imagemin',
+                'compass:dist',
                 'svgmin',
                 'htmlmin'
             ]
@@ -627,6 +649,12 @@ module.exports = function (grunt) {
         'coverageBackend',
 
         'concurrent:dist',
+
+        // place after compass:dist in order to
+        // ensure compass spritemaps are generated
+        // before images are copied over to dist/
+        'imagemin',
+
         'uglify:dist',
 
         'useminPrepare',
@@ -641,7 +669,14 @@ module.exports = function (grunt) {
         'requirejs:app',
 
         // 'rev',
-        'usemin'
+        'usemin',
+
+        // remove sprites folders in dist/images/sprites/
+        // in favor of having just the spritesheet files
+        'clean:compassSprites',
+
+        // remove useless usemin.html in dist/
+        'clean:useminHTML',
     ]);
 
     grunt.registerTask('default', [

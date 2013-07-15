@@ -1,0 +1,11 @@
+/*
+ * globally-available modules
+ */
+@import 'base_modules/all';
+
+/*
+ * 'normal' modules for (mostly) non-app-based pages
+ */
+@import 'normal/sitewide';
+@import 'normal/header';
+@import 'normal/footer';
