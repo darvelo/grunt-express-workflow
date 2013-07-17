@@ -13,7 +13,8 @@
     "has": "latest",
     "sinonjs": "~1.7.1",
     "handlebars": "~1.0.0",
-    "normalize-css": "~2.1.2"
+    "normalize-css": "~2.1.2",
+    "respond": "~1.2.0"
   },
   "devDependencies": {}
 }
