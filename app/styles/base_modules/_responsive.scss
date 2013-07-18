@@ -1,0 +1,167 @@
+/*
+ * Editable Framework Variables
+ */
+$num-columns: 12 !default;
+$row-width: 100% !default;
+$gutters-total-width: 20% !default;
+$gutter-width: $gutters-total-width / $num-columns !default;
+$col-width: ($row-width - $gutters-total-width) / $num-columns !default;
+// the min-width of the screen where collapsed columns will span as defined.
+// you can change the breakpoint where this happens by setting this variable before including this module.
+$media-col-expand: 768px !default;
+
+
+/*
+ * Editable Stylesheet Building Blocks
+ */
+$responsive-row-class: 'row' !default; // ex. <ul class="row">
+$responsive-column-class-prefix: 'col' !default; // ex. <li class="col-12">
+$responsive-column-offset-class-prefix: 'col-offset' !default; // ex. <li class="col-5 col-offset-3">
+
+@mixin grunt-express-workflow-row-collapsed {
+  margin-left: 0;
+  margin-bottom: 20px;
+}
+@mixin grunt-express-workflow-row-expanded {
+  margin-left : -$gutter-width;
+}
+@mixin grunt-express-workflow-column-collapsed {
+  width: 100%;
+  margin-left: 0;
+  margin-bottom: 5px;
+  float: none;
+}
+@mixin grunt-express-workflow-column-expanded {
+  float: left;
+  margin-left: $gutter-width;
+}
+@mixin grunt-express-workflow-column-expanded-width ($span-size) {
+  width: ($col-width * $span-size) + ($gutter-width * ($span-size - 1));
+}
+@mixin grunt-express-workflow-offset-expanded ($offset-size) {
+  margin-left: ($col-width * $offset-size) + ($gutter-width * ($offset-size + 1));
+}
+
+
+/*
+ * Mixins
+ *
+ * These exist so that you can define fluid responsive layouts,
+ * without a fixed set of presentational classes and breakpoints.
+ *
+ ***************
+ *
+ * You can, for instance, get equal-width columns by doing:
+ *
+ *    <div class="content">
+ *      <div class="description-left">...</div>
+ *      <div class="description-right">...</div>
+ *    </div>
+ *
+ *    .content {
+ *      @include row;
+ *    }
+ *
+ *    .description-left, .description-right {
+ *      @include col-span(6)
+ *    }
+ *
+ ***************
+ *
+ * Or you can do something funky with:
+ *
+ *   .description-left {
+ *     @include col-span(3);
+ *   }
+ *
+ *   .description-right {
+ *     @include col-span(3);
+ *     @include col-offset(3);
+ *   }
+ *
+ ***************
+ *
+ * You could even adjust the collapsing breakpoint manually with:
+ *
+ *   .content {
+ *     @include row(500px);
+ *   }
+ *   .description-left {
+ *     @include col-span(3, 500px);
+ *   }
+ *
+ *   .description-right {
+ *     @include col-span(3, 500px);
+ *     @include col-offset(3, 500px);
+ *   }
+ *
+ * Or adjust the breakpoint globally by setting the
+ * variable proper before including this module with SASS:
+ *
+ * $media-col-expand: 500px;
+ * @import 'responsive';
+ *
+*/
+@mixin row ($expand: $media-col-expand) {
+  @include grunt-express-workflow-row-collapsed;
+
+  @media screen and (min-width: $expand) {
+    @include grunt-express-workflow-row-expanded;
+  }
+}
+
+@mixin col-span ($span-size, $expand: $media-col-expand) {
+  @include grunt-express-workflow-column-collapsed;
+
+  @media screen and (min-width: $expand) {
+    @include grunt-express-workflow-column-expanded;
+    @include grunt-express-workflow-column-expanded-width($span-size);
+  }
+}
+
+@mixin col-offset ($offset-size, $expand: $media-col-expand) {
+  @media screen and (min-width: $expand) {
+    @include grunt-express-workflow-offset-expanded($offset-size);
+  }
+}
+
+
+/*
+ * Responsive Classes
+ */
+.#{$responsive-row-class} {
+  @include grunt-express-workflow-row-collapsed;
+}
+
+%grunt-express-workflow-column-collapsed-extension {
+  @include grunt-express-workflow-column-collapsed;
+}
+@for $i from 1 through $num-columns {
+  .#{$responsive-column-class-prefix}-#{$i} {
+    @extend %grunt-express-workflow-column-collapsed-extension;
+  }
+}
+
+@media screen and (min-width: $media-col-expand) {
+  .#{$responsive-row-class} {
+    @include grunt-express-workflow-row-expanded;
+  }
+
+  %grunt-express-workflow-column-expanded-extension {
+    @include grunt-express-workflow-column-expanded;
+  }
+  @for $i from 1 through $num-columns {
+    .#{$responsive-column-class-prefix}-#{$i} {
+      @extend %grunt-express-workflow-column-expanded-extension;
+      @include grunt-express-workflow-column-expanded-width($i);
+    }
+  }
+
+  // offsets must be defined after col-s for the cascade's sake,
+  // since offsets must take higher priority than col-s
+  @for $i from 1 through $num-columns - 1 {
+    .#{$responsive-column-offset-class-prefix}-#{$i} {
+      @include grunt-express-workflow-offset-expanded($i);
+    }
+  }
+}

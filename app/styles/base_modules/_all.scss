@@ -1,7 +1,9 @@
 /*
  * Modules for site-wide config.
  */
-@import 'globals';
+@import 'variables';
+@import 'mixins';
 @import 'browser_support';
 @import 'css3';
-@import 'mixins';
+@import 'typography';
+@import 'responsive';

@@ -1,3 +1,39 @@
+// dynamically read dimensions of sprites based on a sample
+$sprite-width: image-width('sprites/character/fred.png');
+$sprite-height: image-height('sprites/character/fred.png');
+
+
+/* Default, linear layout for phones (screen width < 480px) */
+/* styles will apply to higher resolutions unless overwritten */
+
+.content {
+  // using @extend on a class, rather than
+  // @include on a mixin, results in less CSS
+  @extend .clearfix;
+
+  margin: 0 auto;
+  text-align: center;
+  max-width: 1300px;
+  width: 93%;
+
+  h1 {
+    margin-bottom: 20px;
+    color: $mystery-machine-yellow;
+    @include text-shadow( lighten($mystery-machine-yellow, 60%) 0px 0px 15px);
+  }
+}
+
+.cards {
+  // you can @include the clearfix too, rather than `@extend .clearfix`
+  @include micro-clearfix;
+
+  // part of 'base_modules/_responsive'
+  @include row;
+
+  list-style: none;
+  color: $mystery-machine-red;
+}
+
 /*
  * here we create a spritesheet from all scooby images.
  * the spritesheet will be compiled into `.tmp/` and after
@@ -6,11 +42,118 @@
  */
 @import 'sprites/character/*.png';
 
-.cards {
+.card {
   .scooby { @include character-sprite(scooby); }
   .fred { @include character-sprite(fred); }
   .daphne { @include character-sprite(daphne); }
   .velma { @include character-sprite(velma); }
   .shaggy { @include character-sprite(shaggy); }
   .sandwich { @include character-sprite(sandwich); }
+
+  background: $mystery-machine-green;
+
+  @include background(
+    linear-gradient(
+      transparentize($mystery-machine-green, 0.5) 0%,
+      transparentize($mystery-machine-green, 0.2) 100%
+    ),
+    image-url('textures/binding_light/binding_light.png') repeat
+  );
+
+  @include border-radius(10px, 10px);
+  @include box-shadow(
+    // light outer shadow
+    rgba(0,0,0,0.4) 0px 0px 10px,
+    // darker bottom shadow
+    rgba(0,0,0,0.8) 0px 2px 2px
+  );
+
+  text-align: center;
+  @include text-shadow( lighten($mystery-machine-yellow, 60%) 0px 1px 0px);
+
+  // part of 'base_modules/_responsive'
+  // expand to full width by default on small phone screens
+  @include col-span(12);
+
+  // help child elements simulate float left with vertically-centered text.
+  // doesn't work if floats are also in the container
+  display: table;
+}
+
+.card b {
+  // simulates float left with vertically-centered text.
+  // doesn't work if floats are also in the container
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.sprite {
+  height: $sprite-height;
+  width: $sprite-width;
+  @include border-top-left-radius(4px);
+  @include border-bottom-left-radius(4px);
+
+  // simulates float left with vertically-centered text.
+  // doesn't work if floats are also in the container
+  display: table-cell;
+  vertical-align: middle;
+}
+
+
+/* Phones to tablets */
+@media screen and (min-width: 480px) {
+  .card {
+    padding: 10px 20px;
+
+    @include col-span(6);
+
+    // even height for all cards since the text
+    // 'A Large Sandwich' line-breaks at smaller widths
+    height: 120px;
+
+    display: block;
+  }
+
+  .card b {
+    display: block;
+    vertical-align: baseline; // default value
+  }
+
+  .sprite {
+    margin: 0 auto;
+    margin-bottom: 5px;
+    @include border-radius(4px, 4px);
+
+    display: block;
+    vertical-align: baseline; // default value
+  }
+}
+
+/* Portrait tablets */
+@media screen and (min-width: 768px) {
+  .card {
+    @include col-span(4);
+  }
+}
+
+/* Default */
+@media screen and (min-width: 980px) {
+  .card {
+    @include col-span(3);
+  }
+}
+
+/* Large display */
+@media screen and (min-width: 1200px) {
+  .card {
+    @include col-span(2);
+
+    height: 160px;
+    padding-top: 30px;
+  }
+}
+
+/* Retina-specific stuff */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  // I put high-res image replacements for backgrounds here originally, but they looked oogleh :P
 }

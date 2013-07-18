@@ -1,4 +1,9 @@
 /*
+ * Configurable variables for modules
+ */
+$media-col-expand: 480px; // for 'base_modules/_responsive'
+
+/*
  * globally-available modules
  */
 @import 'base_modules/all';
@@ -7,12 +12,13 @@
  * if we need the partials found on normal, non-app-based pages, we can include them.
  * we need these since we include Jade header/footer partials in 'views/app.jade'
  */
-@import 'normal/sitewide';
+@import 'normal/globals';
 @import 'normal/header';
 @import 'normal/footer';
 
 /*
  * 'app' modules for this single-page app
  */
-@import 'app/layout';
+@import 'app/variables';
+@import 'app/globals';
 @import 'app/scooby_cards';

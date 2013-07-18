@@ -1,0 +1,24 @@
+body {
+  background: $mystery-machine-blue;
+
+  @include background(
+    // we can stack multiple backgrounds thanks to gradients acting as images
+    linear-gradient(
+      transparentize($mystery-machine-blue, 0.4) 0%,
+      transparentize($mystery-machine-blue, 0.4) 100%
+    ),
+    image-url('textures/skelatal_weave/skelatal_weave_@2X.png') repeat
+  );
+}
+
+header {
+  .logo {
+    @include replace-text-with-dimensions('scooby_swim.jpg', 50%, 50%, false);
+  }
+
+  nav a {
+    // link-colors($normal, $hover, $active, $visited, $focus)
+    @include link-colors($mystery-machine-red, $mystery-machine-yellow, $mystery-machine-green, #777, #fff);
+    @include hover-link;
+  }
+}
