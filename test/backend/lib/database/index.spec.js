@@ -24,7 +24,7 @@ describe('database tests', function () {
     db.addSandwich(data);
 
     expect(data).to.have.length(1);
-    expect(data).to.deep.equal([{ 'name': 'A Large Sandwich' }]);
+    expect(data).to.deep.equal([{ 'name': 'A Large Sandwich', 'class': 'sandwich' }]);
   });
 
   // an example of a pending test, kind of like a reminder that it should be filled in later

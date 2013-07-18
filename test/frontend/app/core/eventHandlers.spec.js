@@ -25,20 +25,20 @@ function(eventHandlers) {
     it('should test collection reset handler', function () {
       var app = {};
       app.collections = {};
-      app.collections.myCollection = {
+      app.collections.people = {
         toJSON: sinon.spy(),
       };
 
       app.eventHandlers = eventHandlers(app);
-      expect(app.eventHandlers).to.have.property('myCollectionReset');
+      expect(app.eventHandlers).to.have.property('PeopleCollectionReset');
 
-      app.eventHandlers.myCollectionReset();
+      app.eventHandlers.PeopleCollectionReset();
 
       // be aware that `should` does NOT work in Internet Explorer
       // app.collections.myCollection.toJSON.should.have.been.calledOnce;
 
       // an alternative to `should`
-      expect(app.collections.myCollection.toJSON).to.have.been.calledOnce;
+      expect(app.collections.people.toJSON).to.have.been.calledOnce;
     });
 
     // pending test -- illustrating a test you may want to flesh out later
@@ -77,7 +77,7 @@ function(eventHandlers) {
 
     it('should test the existence of returned internal values', function () {
       expect(eventHandlers).to.have.property('init');
-      expect(eventHandlers).to.have.property('myCollectionReset');
+      expect(eventHandlers).to.have.property('PeopleCollectionReset');
       expect(eventHandlers).to.have.property('internalFunction');
     });
 
