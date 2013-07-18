@@ -23,8 +23,10 @@ head
   block top-script
     - if (dev)
       script(src='/components/modernizr/modernizr.js')
+      script(src='/components/respond/respond.min.js')
     - else
       script(src='/scripts/vendor/modernizr.js')
+      script(src='/scripts/vendor/respond.js')
 
 body
   //-
