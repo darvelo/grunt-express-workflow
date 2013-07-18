@@ -22,7 +22,7 @@ function (Backbone, template, $) {
     },
 
     addListeners: function addListeners () {
-      this.listenTo(this.app.collections.myCollection, 'reset', this.populateView);
+      this.listenTo(this.app.collections.people, 'reset', this.populateView);
     },
 
     render: function render () {

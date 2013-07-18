@@ -3,10 +3,11 @@ define([
   'views/app',
   'core/config',
   'core/eventHandlers',
+  'collections/people',
   'underscore',
 ],
 
-function (Backbone, AppView, appConfig, appEventHandlers, _) {
+function (Backbone, AppView, appConfig, appEventHandlers, PeopleCollection, _) {
   'use strict';
 
   var App = function() {
@@ -31,11 +32,11 @@ function (Backbone, AppView, appConfig, appEventHandlers, _) {
        * Instantiate empty global models and collections that other,
        * local collections, and views, will reference once populated
        */
-      this.collections.myCollection = new Backbone.Collection([]);
+      this.collections.people = new PeopleCollection();
     },
 
     addListeners: function addListeners () {
-      this.listenTo(this.collections.myCollection, 'reset', this.eventHandlers.myCollectionReset);
+      this.listenTo(this.collections.people, 'reset', this.eventHandlers.PeopleCollectionReset);
     },
 
     createViews: function createViews () {
@@ -47,7 +48,7 @@ function (Backbone, AppView, appConfig, appEventHandlers, _) {
     },
 
     resetData: function resetData (data) {
-      this.collections.myCollection.reset(data);
+      this.collections.people.reset(data);
     },
   };
 

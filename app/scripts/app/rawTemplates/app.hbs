@@ -1,4 +1,9 @@
 <h1>Cast of Scooby-Doo</h1>
-{{#each names }}
-  <p>{{ name }}</p>
-{{/each}}
+<ul class="cards">
+  {{#each names }}
+    <li class="card">
+      <div class="sprite {{ class }}"></div>
+      <b class="name">{{ name }}</b>
+    </li>
+  {{/each}}
+</ul>

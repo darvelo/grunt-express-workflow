@@ -19,16 +19,16 @@ function () {
     }
   }
 
-  function myCollectionReset () {
+  function PeopleCollectionReset () {
     console.log('collection reset!');
-    console.log(app.collections.myCollection.toJSON());
+    console.log(app.collections.people.toJSON());
   }
 
   function init (_app) {
     app = _app;
 
     return {
-      myCollectionReset: myCollectionReset,
+      PeopleCollectionReset: PeopleCollectionReset,
     };
   }
 
@@ -38,7 +38,7 @@ function () {
   if (has('internalTest')) {
     return {
       init: init,
-      myCollectionReset: myCollectionReset,
+      PeopleCollectionReset: PeopleCollectionReset,
       internalFunction: internalFunction,
     };
   }
