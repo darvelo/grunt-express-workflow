@@ -21,8 +21,7 @@ block prepend main
         Colin Smith [<a href="http://creativecommons.org/licenses/by-sa/2.0">CC-BY-SA-2.0</a>], <a href="https://commons.wikimedia.org/wiki/File%3AScooby_Dooby_Doo_-_geograph.org.uk_-_1385012.jpg">via Wikimedia Commons</a>
 
 block append bottom-script
-  script
-    !{bootstrap}
+  script!= bootstrap
 
   - if (dev)
     //- has.js is used to branch requirejs modules' returned values in a test environment like mocha.
