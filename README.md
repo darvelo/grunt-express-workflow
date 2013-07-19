@@ -1,6 +1,6 @@
 ## Intro
 
-These files are meant to help you quickly get up and running using Grunt with Express, with livereload and automatic app server reboots and automatic testing for rapid development. Client-side libraries are retrieved with `bower`.
+These files are meant to help you quickly get up and running using Grunt with Express, with livereload, automatic app server reboots, automatic testing, and a SASS-based flexible responsive grid for rapid development. Client-side libraries are retrieved with `bower`.
 
 **Note:** It's important that you have the proper npm libraries globally installed:
 
@@ -64,6 +64,10 @@ This scaffold is based off of the default Yeoman scaffold, started with
 
 I've built on it from that initial state.
 
+## SASS/Compass Example Files and Modules
+
+The project has been outfitted with helpful SASS modules, including the flexible responsive grid module. Examples of how you can leverage some of the power of SASS and Compass are shown throughout the `app/styles/` folder. The `app/images/sprites` folder is now special. You can create folders in it with images you wish to make into individual spritesheets using Compass' [sprite helpers](http://compass-style.org/help/tutorials/spriting/). An example of this is in the project.
+
 ## Testing
 
 Karma, Istanbul, and Mocha run automated tests and coverage for the frontend and backend. This happens when development files or test files are changed during a `grunt server` run, or when the `grunt test` command is run on the command line. More information can be found in [this blog post](http://arvelocity.com/2013/07/02/running-an-express-server-with-grunt-and-yeoman-part-3/).
@@ -80,5 +84,7 @@ This and more in the companion [blog](http://arvelocity.com/2013/05/30/running-a
 
 ## Changelog
 
+* 0.3.1 - Change Jade templates to accommodate deprecation of implicit text support for scripts in Jade 0.31.0.
+* 0.3.0 - Example SASS with a flexible responsive grid module, and a special `sprites` folder are now included.
 * 0.2.0 - Namespaced Karma task targets in the Gruntfile as well as Istanbul coverage output files.
 * 0.1.0 - Added Karma, Mocha, and Istanbul for a full-featured frontend and backend test framework.
