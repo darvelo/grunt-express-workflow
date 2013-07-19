@@ -1,6 +1,8 @@
 ## Intro
 
-These files are meant to help you quickly get up and running using Grunt with Express, with livereload, automatic app server reboots, automatic testing, and a SASS-based flexible responsive grid for rapid development. Client-side libraries are retrieved with `bower`.
+These files are meant to help you quickly get up and running using Grunt with Express, with livereload, automatic app server reboots, automatic testing, and a [SASS-based flexible responsive grid](https://github.com/appleYaks/responsive-sass-grid) for rapid development. Client-side libraries are retrieved with `bower`.
+
+[This is an example](http://davidarvelo.com/e/workflow/) of what the project compiles to. Resize the browser to see it at different media query breakpoints.
 
 **Note:** It's important that you have the proper npm libraries globally installed:
 
@@ -66,7 +68,7 @@ I've built on it from that initial state.
 
 ## SASS/Compass Example Files and Modules
 
-The project has been outfitted with helpful SASS modules, including the flexible responsive grid module. Examples of how you can leverage some of the power of SASS and Compass are shown throughout the `app/styles/` folder. The `app/images/sprites` folder is now special. You can create folders in it with images you wish to make into individual spritesheets using Compass' [sprite helpers](http://compass-style.org/help/tutorials/spriting/). An example of this is in the project.
+The project has been outfitted with helpful SASS modules, including the [flexible responsive grid module](https://github.com/appleYaks/responsive-sass-grid). Examples of how you can leverage some of the power of SASS and Compass are shown throughout the `app/styles/` folder. The `app/images/sprites` folder is now special. You can create folders in it with images you wish to make into individual spritesheets using Compass' [sprite helpers](http://compass-style.org/help/tutorials/spriting/). An example of this is in the project.
 
 ## Testing
 
@@ -84,7 +86,7 @@ This and more in the companion [blog](http://arvelocity.com/2013/05/30/running-a
 
 ## Changelog
 
-* 0.3.1 - Change Jade templates to accommodate deprecation of implicit text support for scripts in Jade 0.31.0.
-* 0.3.0 - Example SASS with a flexible responsive grid module, and a special `sprites` folder are now included.
-* 0.2.0 - Namespaced Karma task targets in the Gruntfile as well as Istanbul coverage output files.
-* 0.1.0 - Added Karma, Mocha, and Istanbul for a full-featured frontend and backend test framework.
+* `0.3.1` - Change Jade templates to accommodate deprecation of implicit text support for scripts in Jade 0.31.0.
+* `0.3.0` - Example SASS with a flexible responsive grid module, and a special `sprites` folder are now included.
+* `0.2.0` - Namespaced Karma task targets in the Gruntfile as well as Istanbul coverage output files.
+* `0.1.0` - Added Karma, Mocha, and Istanbul for a full-featured frontend and backend test framework.
