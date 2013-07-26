@@ -54,7 +54,7 @@ Grunt plugins I included in `package.json` and configured in `Gruntfile.js` are:
 * [grunt-nodemon](https://github.com/ChrisWren/grunt-nodemon) (~0.0.2)
 * [grunt-contrib-handlebars](https://github.com/gruntjs/grunt-contrib-handlebars/) - for precompiled client-side templates
 * [grunt-concurrent](https://github.com/sindresorhus/grunt-concurrent) (~0.2.0 !important)
-* [grunt-contrib-watch](https://github.com/gruntjs/grunt-contrib-watch) (~0.4.3 !important)
+* [grunt-contrib-watch](https://github.com/gruntjs/grunt-contrib-watch) (~0.5.1 !important)
 * [grunt-simple-mocha](https://github.com/yaymukund/grunt-simple-mocha)
 * [grunt-karma](https://github.com/karma-runner/grunt-karma)
 
