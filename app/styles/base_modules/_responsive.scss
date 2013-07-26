@@ -1,45 +1,197 @@
 /*
- * Editable Framework Variables
+ * Title: responsive-sass-grid
+ * Documentation: https://github.com/appleYaks/responsive-sass-grid
+ * Author: David Arvelo
+ * Version: 0.1.0
+ *
+ * Dual-licensed under:
+ *
+ *  GPLv3
+ *  -----
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  MIT
+ *  ---
+ *  Copyright (C) 2013 David Arvelo
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining
+ *  a copy of this software and associated documentation files (the "Software"),
+ *  to deal in the Software without restriction, including without limitation the
+ *  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ *  sell copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ *  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ *  PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ *  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ *  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ *  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-$num-columns: 12 !default;
-$row-width: 100% !default;
-$gutters-total-width: 20% !default;
-$gutter-width: $gutters-total-width / $num-columns !default;
-$col-width: ($row-width - $gutters-total-width) / $num-columns !default;
-// the min-width of the screen where collapsed columns will span as defined.
-// you can change the breakpoint where this happens by setting this variable before including this module.
-$media-col-expand: 768px !default;
 
 
 /*
- * Editable Stylesheet Building Blocks
+ * Editable Framework Variables
  */
+$responsive-total-columns: 12 !default;
+$responsive-row-width: 100% !default;
+// this is a percentage cut into the row-width percentage, so ($responsive-row-width * $responsive-total-gutters-width)
+$responsive-total-gutters-width: 20% !default;
+// the min-width of the screen where collapsed columns will span as defined.
+// you can change the breakpoint where this happens by setting this variable before including this module.
+$responsive-media-col-expand: 768px !default;
+
+
+$responsive-classes-enable: true !default;
 $responsive-row-class: 'row' !default; // ex. <ul class="row">
 $responsive-column-class-prefix: 'col' !default; // ex. <li class="col-12">
 $responsive-column-offset-class-prefix: 'col-offset' !default; // ex. <li class="col-5 col-offset-3">
 
-@mixin grunt-express-workflow-row-collapsed {
+
+/*
+ * Generic Functions
+ */
+
+// percentage to decimal
+@function p_to_d ($percentage) {
+  @if unit($percentage) != '%' {
+    @warn "#{$percentage} was not a percentage unit";
+    @return $percentage;
+  }
+
+  @return $percentage / 100%;
+}
+
+
+/*
+ * Gutter and Column Width Percentage Calculation Functions
+ *
+ * Percentages are based on the containing element.
+ *   For a row, 100% means 100% of the its container.
+ *   For a column, 100% means 100% of the row. Since the row width changes when
+ *     its margin-left is applied, column widths and gutter widths need to be
+ *     calculated based on the new row width.
+ *
+ * We can represent the new row width with this formula:
+ *
+ *             L * p              W = new row width (100% row's container plus negative left margin)
+ *   W =  L + -------  ,  where:  L = old row width (aka 100% row's container)
+ *             n - 1              p = total gutter width percentage (e.g. 20% of L)
+ *                                n = maximum number of total columns allowed in the row.
+ *                                    there are always `n-1` gutters for `n` columns.
+ *
+ * Since we need to calculate gutter and column widths based
+ * on the new row width, this formula can be reconfigured to:
+ *
+ *         W (n - 1)
+ *   L =  -----------
+ *         p + n - 1
+ *
+ * The row's left margin is calculated based on 100% width of its container.
+ * The column widths and gutter widths (column left margins) are calculated based on L, the new width of the containing row.
+ *
+ * Both the row and column gutters are calculated using `n-1`,
+ * since the number of gutters is always one less than the columns.
+ *
+ * Column widths are allocated once the gutter widths are calculated and subtracted from the total width.
+ */
+@function -responsive-row-width-minus-margin ($row-width, $total-gutters-width, $total-cols) {
+  @return percentage((p_to_d($row-width) * ($total-cols - 1)) / (p_to_d($total-gutters-width) + $total-cols - 1));
+}
+
+@function -responsive-compute-row-gutter-width ($row-width, $total-gutters-width, $total-cols) {
+  @return percentage(p_to_d($row-width) * p_to_d($total-gutters-width)) / ($total-cols - 1);
+}
+
+@function -responsive-compute-col-gutter-width ($row-width, $total-gutters-width, $total-cols) {
+  $row-width-minus-margin: -responsive-row-width-minus-margin($row-width, $total-gutters-width, $total-cols);
+
+  @return percentage(p_to_d($row-width-minus-margin) * p_to_d($total-gutters-width)) / ($total-cols - 1);
+}
+
+@function -responsive-compute-col-width ($row-width, $total-gutters-width, $total-cols) {
+  $row-width-minus-margin: -responsive-row-width-minus-margin($row-width, $total-gutters-width, $total-cols);
+
+  @return ($row-width-minus-margin - percentage(p_to_d($row-width-minus-margin) * p_to_d($total-gutters-width))) / $total-cols;
+}
+
+
+/*
+ * Stylesheet Building Blocks
+ */
+@mixin responsive-row-collapsed {
   margin-left: 0;
   margin-bottom: 20px;
 }
-@mixin grunt-express-workflow-row-expanded {
-  margin-left : -$gutter-width;
+
+@mixin responsive-row-expanded (
+    $row-width: $responsive-row-width,
+    $total-gutters-width: $responsive-total-gutters-width,
+    $total-cols: $responsive-total-columns
+  ) {
+
+    $gutter-width: -responsive-compute-row-gutter-width($row-width, $total-gutters-width, $total-cols);
+
+    margin-left : -$gutter-width;
 }
-@mixin grunt-express-workflow-column-collapsed {
+
+@mixin responsive-column-collapsed {
   width: 100%;
   margin-left: 0;
   margin-bottom: 5px;
   float: none;
 }
-@mixin grunt-express-workflow-column-expanded {
-  float: left;
-  margin-left: $gutter-width;
+
+@mixin responsive-column-expanded (
+    $row-width: $responsive-row-width,
+    $total-gutters-width: $responsive-total-gutters-width,
+    $total-cols: $responsive-total-columns
+  ) {
+
+    $gutter-width: -responsive-compute-col-gutter-width($row-width, $total-gutters-width, $total-cols);
+
+    float: left;
+    margin-left: $gutter-width;
 }
-@mixin grunt-express-workflow-column-expanded-width ($span-size) {
-  width: ($col-width * $span-size) + ($gutter-width * ($span-size - 1));
+
+@mixin responsive-column-expanded-width (
+    $span-size,
+    $row-width: $responsive-row-width,
+    $total-gutters-width: $responsive-total-gutters-width,
+    $total-cols: $responsive-total-columns
+  ) {
+
+    $gutter-width: -responsive-compute-col-gutter-width($row-width, $total-gutters-width, $total-cols);
+    $col-width: -responsive-compute-col-width($row-width, $total-gutters-width, $total-cols);
+
+    width: ($col-width * $span-size) + ($gutter-width * ($span-size - 1));
 }
-@mixin grunt-express-workflow-offset-expanded ($offset-size) {
-  margin-left: ($col-width * $offset-size) + ($gutter-width * ($offset-size + 1));
+
+@mixin responsive-offset-expanded (
+    $offset-size,
+    $row-width: $responsive-row-width,
+    $total-gutters-width: $responsive-total-gutters-width,
+    $total-cols: $responsive-total-columns
+  ) {
+
+    $gutter-width: -responsive-compute-col-gutter-width($row-width, $total-gutters-width, $total-cols);
+    $col-width: -responsive-compute-col-width($row-width, $total-gutters-width, $total-cols);
+
+    margin-left: ($col-width * $offset-size) + ($gutter-width * ($offset-size + 1));
 }
 
 
@@ -48,120 +200,106 @@ $responsive-column-offset-class-prefix: 'col-offset' !default; // ex. <li class=
  *
  * These exist so that you can define fluid responsive layouts,
  * without a fixed set of presentational classes and breakpoints.
- *
- ***************
- *
- * You can, for instance, get equal-width columns by doing:
- *
- *    <div class="content">
- *      <div class="description-left">...</div>
- *      <div class="description-right">...</div>
- *    </div>
- *
- *    .content {
- *      @include row;
- *    }
- *
- *    .description-left, .description-right {
- *      @include col-span(6)
- *    }
- *
- ***************
- *
- * Or you can do something funky with:
- *
- *   .description-left {
- *     @include col-span(3);
- *   }
- *
- *   .description-right {
- *     @include col-span(3);
- *     @include col-offset(3);
- *   }
- *
- ***************
- *
- * You could even adjust the collapsing breakpoint manually with:
- *
- *   .content {
- *     @include row(500px);
- *   }
- *   .description-left {
- *     @include col-span(3, 500px);
- *   }
- *
- *   .description-right {
- *     @include col-span(3, 500px);
- *     @include col-offset(3, 500px);
- *   }
- *
- * Or adjust the breakpoint globally by setting the
- * variable proper before including this module with SASS:
- *
- * $media-col-expand: 500px;
- * @import 'responsive';
- *
 */
-@mixin row ($expand: $media-col-expand) {
-  @include grunt-express-workflow-row-collapsed;
+@mixin row (
+    $expand: $responsive-media-col-expand,
+    $row-width: $responsive-row-width,
+    $total-gutters-width: $responsive-total-gutters-width,
+    $total-cols: $responsive-total-columns
+  ) {
+    @include responsive-row-collapsed;
 
-  @media screen and (min-width: $expand) {
-    @include grunt-express-workflow-row-expanded;
-  }
+    @media screen and (min-width: $expand) {
+      @include responsive-row-expanded(
+        $row-width: $row-width,
+        $total-gutters-width: $total-gutters-width,
+        $total-cols: $total-cols
+      );
+    }
 }
 
-@mixin col-span ($span-size, $expand: $media-col-expand) {
-  @include grunt-express-workflow-column-collapsed;
+@mixin col-span (
+    $span-size,
+    $expand: $responsive-media-col-expand,
+    $row-width: $responsive-row-width,
+    $total-gutters-width: $responsive-total-gutters-width,
+    $total-cols: $responsive-total-columns
+  ) {
+    @include responsive-column-collapsed;
 
-  @media screen and (min-width: $expand) {
-    @include grunt-express-workflow-column-expanded;
-    @include grunt-express-workflow-column-expanded-width($span-size);
-  }
+    @media screen and (min-width: $expand) {
+      @include responsive-column-expanded(
+        $row-width: $row-width,
+        $total-gutters-width: $total-gutters-width,
+        $total-cols: $total-cols
+      );
+
+      @include responsive-column-expanded-width(
+        $span-size,
+        $row-width: $row-width,
+        $total-gutters-width: $total-gutters-width,
+        $total-cols: $total-cols
+      );
+    }
 }
 
-@mixin col-offset ($offset-size, $expand: $media-col-expand) {
-  @media screen and (min-width: $expand) {
-    @include grunt-express-workflow-offset-expanded($offset-size);
-  }
+@mixin col-offset (
+    $offset-size,
+    $expand: $responsive-media-col-expand,
+    $row-width: $responsive-row-width,
+    $total-gutters-width: $responsive-total-gutters-width,
+    $total-cols: $responsive-total-columns
+  ) {
+    @media screen and (min-width: $expand) {
+      @include responsive-offset-expanded(
+        $offset-size,
+        $row-width: $row-width,
+        $total-gutters-width: $total-gutters-width,
+        $total-cols: $total-cols
+      );
+    }
 }
 
 
 /*
  * Responsive Classes
+ *   Defaults to 12-column rows unless global defaults are overridden.
  */
-.#{$responsive-row-class} {
-  @include grunt-express-workflow-row-collapsed;
-}
-
-%grunt-express-workflow-column-collapsed-extension {
-  @include grunt-express-workflow-column-collapsed;
-}
-@for $i from 1 through $num-columns {
-  .#{$responsive-column-class-prefix}-#{$i} {
-    @extend %grunt-express-workflow-column-collapsed-extension;
-  }
-}
-
-@media screen and (min-width: $media-col-expand) {
+@if $responsive-classes-enable == true {
   .#{$responsive-row-class} {
-    @include grunt-express-workflow-row-expanded;
+    @include responsive-row-collapsed;
   }
 
-  %grunt-express-workflow-column-expanded-extension {
-    @include grunt-express-workflow-column-expanded;
+  %responsive-column-collapsed-extension {
+    @include responsive-column-collapsed;
   }
-  @for $i from 1 through $num-columns {
+  @for $i from 1 through $responsive-total-columns {
     .#{$responsive-column-class-prefix}-#{$i} {
-      @extend %grunt-express-workflow-column-expanded-extension;
-      @include grunt-express-workflow-column-expanded-width($i);
+      @extend %responsive-column-collapsed-extension;
     }
   }
 
-  // offsets must be defined after col-s for the cascade's sake,
-  // since offsets must take higher priority than col-s
-  @for $i from 1 through $num-columns - 1 {
-    .#{$responsive-column-offset-class-prefix}-#{$i} {
-      @include grunt-express-workflow-offset-expanded($i);
+  @media screen and (min-width: $responsive-media-col-expand) {
+    .#{$responsive-row-class} {
+      @include responsive-row-expanded;
+    }
+
+    %responsive-column-expanded-extension {
+      @include responsive-column-expanded;
+    }
+    @for $i from 1 through $responsive-total-columns {
+      .#{$responsive-column-class-prefix}-#{$i} {
+        @extend %responsive-column-expanded-extension;
+        @include responsive-column-expanded-width($i);
+      }
+    }
+
+    // offsets must be defined after col-s for the cascade's sake,
+    // since offsets must take higher priority than col-s
+    @for $i from 1 through $responsive-total-columns - 1 {
+      .#{$responsive-column-offset-class-prefix}-#{$i} {
+        @include responsive-offset-expanded($i);
+      }
     }
   }
 }
