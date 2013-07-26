@@ -1,6 +1,6 @@
 {
   "name": "grunt-express-workflow",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "private": true,
   "dependencies": {
     "express": "3.1.0",
@@ -31,7 +31,7 @@
     "grunt-concurrent": "~0.2.0",
     "matchdep": "~0.1.1",
     "grunt-nodemon": "0.0.2",
-    "grunt-contrib-watch": "~0.4.3",
+    "grunt-contrib-watch": "~0.5.1",
     "grunt-simple-mocha": "~0.4.0",
     "grunt-karma": "~0.4.5",
     "mocha": "*",

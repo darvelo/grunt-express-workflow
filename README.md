@@ -82,10 +82,9 @@ This and more in the companion [blog](http://arvelocity.com/2013/05/30/running-a
 
 1. If you want to `grunt build` for production with Handlebars in your project, you'll need to change the Handlebars runtime library code from the initial `var Handlebars = {};` to `this.Handlebars = {};` so that it'll be attached to the `window` object and found by RequireJS modules. It seems this is being fixed upstream with the Handlebars developers at the time of this writing.
 
-2. There's an issue in the `grunt-contrib-watch` task where if two targets are watching the same file(s), only the last defined target will run if the file(s) change. Right now this means client-side tests will run and livereload will not when client-side scripts are saved. You can switch this behavior by altering the watch target order in `Gruntfile.js`. Watch [grunt-contrib-watch issue #25](https://github.com/gruntjs/grunt-contrib-watch/issues/25) and upgrade your local copy of that library using `npm` when it's fixed.
-
 ## Changelog
 
+* `0.3.2` - Update `grunt-contrib-watch` in `package.json` to `0.5.1`. Update `responsive-sass-grid` to `0.1.0`.
 * `0.3.1` - Change Jade templates to accommodate deprecation of implicit text support for scripts in Jade 0.31.0.
 * `0.3.0` - Example SASS with a flexible responsive grid module, and a special `sprites` folder are now included.
 * `0.2.0` - Namespaced Karma task targets in the Gruntfile as well as Istanbul coverage output files.
