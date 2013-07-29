@@ -82,8 +82,11 @@ This and more in the companion [blog](http://arvelocity.com/2013/05/30/running-a
 
 1. If you want to `grunt build` for production with Handlebars in your project, you'll need to change the Handlebars runtime library code from the initial `var Handlebars = {};` to `this.Handlebars = {};` so that it'll be attached to the `window` object and found by RequireJS modules. It seems this is being fixed upstream with the Handlebars developers at the time of this writing.
 
+2. If you want to test your media queries in old IE with `respond.js`, be sure to modify your `Gruntfile.js` to switch your `compass:server` options from `debugInfo: true` to `debugInfo: false`. This removes Compass' ability to inject certain media queries into your CSS, which would make it easier for you to debug your styles in modern browser debuggers, but confuse the logic of `respond.js`.
+
 ## Changelog
 
+* `0.3.3` - Switch to using lodash.legacy and use safe console.log calls for IE8. Update jQuery to 1.10.2.
 * `0.3.2` - Update `grunt-contrib-watch` in `package.json` to `0.5.1`. Update `responsive-sass-grid` to `0.1.0`.
 * `0.3.1` - Change Jade templates to accommodate deprecation of implicit text support for scripts in Jade 0.31.0.
 * `0.3.0` - Example SASS with a flexible responsive grid module, and a special `sprites` folder are now included.
