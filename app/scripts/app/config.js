@@ -7,7 +7,7 @@ require.config({
     // needed for precompiled templates
     handlebars: '../../components/handlebars/handlebars.runtime',
     JST: 'templates',
-    underscore: '../../components/lodash/lodash',
+    underscore: '../../components/lodash/dist/lodash.legacy',
     backbone: '../../components/backbone/backbone',
   },
   shim: {

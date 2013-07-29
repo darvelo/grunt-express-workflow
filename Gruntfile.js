@@ -227,7 +227,7 @@ module.exports = function (grunt) {
                         // templates are compiled from '/.tmp'!
                         // in dev, express handles mapping that to '/scripts/app/templates'
                         JST: '../../../.tmp/scripts/app/templates',
-                        underscore: '../../components/lodash/dist/lodash.min',
+                        underscore: '../../components/lodash/dist/lodash.legacy.min',
                         backbone: '../../components/backbone/backbone-min',
                     },
                     shim: {
@@ -254,6 +254,7 @@ module.exports = function (grunt) {
                             },
                         },
                     },
+                    //uglify2: {} // https://github.com/mishoo/UglifyJS2
                     optimize: 'uglify2',
                     // TODO: Figure out how to make sourcemaps work with grunt-usemin
                     // https://github.com/yeoman/grunt-usemin/issues/30
@@ -263,7 +264,6 @@ module.exports = function (grunt) {
                     preserveLicenseComments: false,
                     useStrict: true,
                     wrap: true,
-                    //uglify2: {} // https://github.com/mishoo/UglifyJS2
 
                     // use almond in production
                     // https://github.com/asciidisco/grunt-requirejs/blob/master/docs/almondIntegration.md
