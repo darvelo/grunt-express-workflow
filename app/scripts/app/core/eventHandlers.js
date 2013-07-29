@@ -20,8 +20,8 @@ function () {
   }
 
   function PeopleCollectionReset () {
-    console.log('collection reset!');
-    console.log(app.collections.people.toJSON());
+    'console' in window && console.log('collection reset!');
+    'console' in window && console.log(app.collections.people.toJSON());
   }
 
   function init (_app) {

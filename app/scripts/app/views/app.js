@@ -36,7 +36,7 @@ function (Backbone, template, $) {
     },
 
     handleClick: function handleClick (evt) {
-      console.log(evt);
+      'console' in window && console.log(evt);
     },
   });
 
