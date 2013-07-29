@@ -68,7 +68,7 @@ I've built on it from that initial state.
 
 ## SASS/Compass Example Files and Modules
 
-The project has been outfitted with helpful SASS modules, including the [flexible responsive grid module](https://github.com/appleYaks/responsive-sass-grid). Examples of how you can leverage some of the power of SASS and Compass are shown throughout the `app/styles/` folder. The `app/images/sprites` folder is now special. You can create folders in it with images you wish to make into individual spritesheets using Compass' [sprite helpers](http://compass-style.org/help/tutorials/spriting/). An example of this is in the project.
+The project has been outfitted with helpful SASS modules, including the [flexible responsive grid module](https://github.com/appleYaks/responsive-sass-grid). Examples of how you can leverage some of the power of SASS and Compass are shown throughout the `app/styles/` folder. The `app/images/sprites` folder is now special. You can create folders in it with images you wish to make into individual spritesheets using Compass' [sprite helpers](http://compass-style.org/help/tutorials/spriting/). An example of this is in the project. The `relativeAssets` option in the `compass` grunt task has been changed to `false`, since `relativeAssets: true` produces [incorrect](https://gist.github.com/passy/5270050) [references](https://github.com/yeoman/yeoman/issues/419) to sprites in the final CSS. Images are now referenced relative to the definitions in the root file `compass.rb`.
 
 ## Testing
 
