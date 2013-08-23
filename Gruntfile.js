@@ -463,7 +463,9 @@ module.exports = function (grunt) {
                     args: ['development'],
                     watchedExtensions: [
                         'js',
-                        'coffee'
+                        // This might cause an issue starting the server
+                        // See: https://github.com/appleYaks/grunt-express-workflow/issues/2
+                        // 'coffee'
                     ],
                     // nodemon watches the current directory recursively by default
                     // watchedFolders: ['.'],
@@ -477,7 +479,9 @@ module.exports = function (grunt) {
                     file: 'node-inspector.js',
                     watchedExtensions: [
                         'js',
-                        'coffee'
+                        // This might cause an issue starting the server
+                        // See: https://github.com/appleYaks/grunt-express-workflow/issues/2
+                        // 'coffee'
                     ],
                     exec: 'node-inspector',
                     ignoredFiles: nodemonIgnoredFiles,

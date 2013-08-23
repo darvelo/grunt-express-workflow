@@ -86,6 +86,7 @@ This and more in the companion [blog](http://arvelocity.com/2013/05/30/running-a
 
 ## Changelog
 
+* `0.3.4` - Fix an issue where nodemon runs `coffee` and prevents the server from starting in some cases.
 * `0.3.3` - Switch to using lodash.legacy and use safe console.log calls for IE8. Update jQuery to 1.10.2.
 * `0.3.2` - Update `grunt-contrib-watch` in `package.json` to `0.5.1`. Update `responsive-sass-grid` to `0.1.0`.
 * `0.3.1` - Change Jade templates to accommodate deprecation of implicit text support for scripts in Jade 0.31.0.
