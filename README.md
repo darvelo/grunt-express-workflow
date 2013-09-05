@@ -86,6 +86,7 @@ This and more in the companion [blog](http://arvelocity.com/2013/05/30/running-a
 
 ## Changelog
 
+* `0.3.5` - Update lodash to 1.3.1 and change references from lodash.legacy to lodash.compat.
 * `0.3.4` - Fix an issue where nodemon runs `coffee` and prevents the server from starting in some cases.
 * `0.3.3` - Switch to using lodash.legacy and use safe console.log calls for IE8. Update jQuery to 1.10.2.
 * `0.3.2` - Update `grunt-contrib-watch` in `package.json` to `0.5.1`. Update `responsive-sass-grid` to `0.1.0`.

@@ -14,7 +14,7 @@ require.config({
     // needed for precompiled templates
     handlebars: '../../components/handlebars/handlebars.runtime',
     JST: 'templates',
-    underscore: '../../components/lodash/dist/lodash.legacy',
+    underscore: '../../components/lodash/dist/lodash.compat',
     backbone: '../../components/backbone/backbone',
 
     chai: '../../components/chai/chai',

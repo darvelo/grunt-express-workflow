@@ -227,7 +227,7 @@ module.exports = function (grunt) {
                         // templates are compiled from '/.tmp'!
                         // in dev, express handles mapping that to '/scripts/app/templates'
                         JST: '../../../.tmp/scripts/app/templates',
-                        underscore: '../../components/lodash/dist/lodash.legacy.min',
+                        underscore: '../../components/lodash/dist/lodash.compat.min',
                         backbone: '../../components/backbone/backbone-min',
                     },
                     shim: {
