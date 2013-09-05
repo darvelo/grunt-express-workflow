@@ -13,7 +13,7 @@ require.config({
     jquery: '../../components/jquery/jquery',
     // needed for precompiled templates
     handlebars: '../../components/handlebars/handlebars.runtime',
-    JST: 'templates',
+    JST: '../../../.tmp/scripts/app/templates',
     underscore: '../../components/lodash/dist/lodash.compat',
     backbone: '../../components/backbone/backbone',
 

@@ -1,6 +1,6 @@
 {
   "name": "grunt-express-workflow",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "dependencies": {
     "backbone": "~1.0.0",
     "requirejs": "~2.1.5",
