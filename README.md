@@ -1,6 +1,6 @@
 ## Intro
 
-These files are meant to help you quickly get up and running using Grunt with Express, with livereload, automatic app server reboots, automatic testing, and a [SASS-based flexible responsive grid](https://github.com/appleYaks/responsive-sass-grid) for rapid development. Client-side libraries are retrieved with `bower`.
+These files are meant to help you quickly get up and running using Grunt with Express, with LiveReload, automatic app server reboots, and automatic testing for rapid development. Automatic cache-busting of all assets in production is supported with `grunt-usemin`.
 
 [This is an example](http://davidarvelo.com/e/workflow/) of what the project compiles to. Resize the browser to see it at different media query breakpoints.
 
@@ -68,7 +68,7 @@ I've built on it from that initial state.
 
 ## SASS/Compass Example Files and Modules
 
-The project has been outfitted with helpful SASS modules, including the [flexible responsive grid module](https://github.com/appleYaks/responsive-sass-grid). Examples of how you can leverage some of the power of SASS and Compass are shown throughout the `app/styles/` folder. The `app/images/sprites` folder is now special. You can create folders in it with images you wish to make into individual spritesheets using Compass' [sprite helpers](http://compass-style.org/help/tutorials/spriting/). An example of this is in the project. The `relativeAssets` option in the `compass` grunt task has been changed to `false`, since `relativeAssets: true` produces [incorrect](https://gist.github.com/passy/5270050) [references](https://github.com/yeoman/yeoman/issues/419) to sprites in the final CSS. Images are now referenced relative to the definitions in the root file `compass.rb`.
+Examples of how you can leverage some of the power of SASS and Compass are shown throughout the `app/styles/` folder. The `app/images/sprites` folder is now special. You can create folders in it with images you wish to make into individual spritesheets using Compass' [sprite helpers](http://compass-style.org/help/tutorials/spriting/). An example of this is in the project. The `relativeAssets` option in the `compass` grunt task has been changed to `false`, since `relativeAssets: true` produces [incorrect](https://gist.github.com/passy/5270050) [references](https://github.com/yeoman/yeoman/issues/419) to sprites in the final CSS. Images are now referenced relative to the definitions in the `compass` task in `Gruntfile.js`.
 
 ## Testing
 
@@ -86,6 +86,7 @@ This and more in the companion [blog](http://arvelocity.com/2013/05/30/running-a
 
 ## Changelog
 
+* `0.4.0` - Support automatic cache-busting of all assets in production.
 * `0.3.6` - Fix reference to Handlebars templates in Karma test config.
 * `0.3.5` - Update lodash to 1.3.1 and change references from lodash.legacy to lodash.compat.
 * `0.3.4` - Fix an issue where nodemon runs `coffee` and prevents the server from starting in some cases.
