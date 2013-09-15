@@ -3,5 +3,5 @@ dist
 .tmp
 .sass-cache
 coverage
-app/components
+app/bower_components
 .nodemonignore
