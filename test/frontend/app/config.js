@@ -9,18 +9,18 @@ require.config({
   baseUrl: '/base/app/scripts/app',
 
   paths: {
-    json3: '../../components/json3/lib/json3',
-    jquery: '../../components/jquery/jquery',
+    json3: '../../bower_components/json3/lib/json3',
+    jquery: '../../bower_components/jquery/jquery',
     // needed for precompiled templates
-    handlebars: '../../components/handlebars/handlebars.runtime',
+    handlebars: '../../bower_components/handlebars/handlebars.runtime',
     JST: '../../../.tmp/scripts/app/templates',
-    underscore: '../../components/lodash/dist/lodash.compat',
-    backbone: '../../components/backbone/backbone',
+    underscore: '../../bower_components/lodash/dist/lodash.compat',
+    backbone: '../../bower_components/backbone/backbone',
 
-    chai: '../../components/chai/chai',
-    'sinon-chai': '../../components/sinon-chai/lib/sinon-chai',
+    chai: '../../bower_components/chai/chai',
+    'sinon-chai': '../../bower_components/sinon-chai/lib/sinon-chai',
 
-    has: '../../components/has/has',
+    has: '../../bower_components/has/has',
   },
   shim: {
     handlebars: {
