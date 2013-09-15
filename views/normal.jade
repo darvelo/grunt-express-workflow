@@ -4,7 +4,9 @@ block title
   title Just a Normal Page
 
 block append css
-  link(rel='stylesheet', href='/styles/normal.css')
+  <!-- build:css(.tmp) styles/normal.css -->
+  <link rel="stylesheet" href="styles/normal.css">
+  <!-- endbuild -->
 
 block append top-script
 

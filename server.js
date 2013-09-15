@@ -35,12 +35,15 @@ if (process.env.NODE_ENV === 'production' || process.argv[2] === 'production') {
 /*
  * Config
  */
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
-
-if (app.get('env') === 'development') {
+if (/^development|test$/.test(app.get('env'))) {
   app.use(express.logger('dev'));
+
+  app.set('views', __dirname + '/views');
+} else if (app.get('env') === 'production') {
+  app.set('views', __dirname + '/dist/views');
 }
+
+app.set('view engine', 'jade');
 
 // app.use(express.favicon());
 app.use(express.cookieParser(/* 'some secret key to sign cookies' */ 'keyboardcat' ));
@@ -70,11 +73,11 @@ app.use(app.router);
 
 
 // host dev files if in dev mode
-if (app.get('env') === 'development') {
+if (/^development|test$/.test(app.get('env'))) {
   app.use(express.static('.tmp'));
   app.use(express.static('app'));
-} else {
-  app.use(express.static('dist'));
+} else if (app.get('env') === 'production') {
+  app.use(express.static('dist/app'));
 }
 
 
