@@ -16,10 +16,10 @@ files = [
   REQUIRE,
   REQUIRE_ADAPTER,
 
-  'app/components/sinonjs/sinon.js',
-  'app/components/has/has.js',
+  'app/bower_components/sinonjs/sinon.js',
+  'app/bower_components/has/has.js',
 
-  {pattern: 'app/components/**/*.js', included: false},
+  {pattern: 'app/bower_components/**/*.js', included: false},
   {pattern: 'app/scripts/**/*.js', included: false},
   {pattern: '.tmp/scripts/**/*.js', included: false},
 
