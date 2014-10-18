@@ -2,7 +2,7 @@
 
 These files are meant to help you quickly get up and running using Grunt with Express, with LiveReload, automatic app server reboots, and automatic testing for rapid development. Automatic cache-busting of all assets in production is supported with `grunt-usemin`.
 
-[This is an example](http://davidarvelo.com/e/workflow/) of what the project compiles to. Resize the browser to see it at different media query breakpoints.
+[This is an example](https://darvelo.github.io/grunt-express-workflow) of what the project compiles to. Resize the browser to see it at different media query breakpoints.
 
 **Note:** It's important that you have the proper npm libraries globally installed:
 
@@ -72,11 +72,11 @@ Examples of how you can leverage some of the power of SASS and Compass are shown
 
 ## Testing
 
-Karma, Istanbul, and Mocha run automated tests and coverage for the frontend and backend. This happens when development files or test files are changed during a `grunt server` run, or when the `grunt test` command is run on the command line. More information can be found in [this blog post](http://arvelocity.com/2013/07/02/running-an-express-server-with-grunt-and-yeoman-part-3/).
+Karma, Istanbul, and Mocha run automated tests and coverage for the frontend and backend. This happens when development files or test files are changed during a `grunt server` run, or when the `grunt test` command is run on the command line. More information can be found in [this blog post](http://davidarvelo.com/blog/running-an-express-server-with-grunt-and-yeoman-part-3/).
 
 ## "But how do I use this? Why did you make this?"
 
-This and more in the companion [blog](http://arvelocity.com/2013/05/30/running-an-express-server-with-grunt-and-yeoman-part-2/) [posts](http://arvelocity.com/2013/07/02/running-an-express-server-with-grunt-and-yeoman-part-3/) to this repository.
+This and more in the companion [blog](http://davidarvelo.com/blog/running-an-express-server-with-grunt-and-yeoman-part-2/) [posts](http://davidarvelo.com/blog/running-an-express-server-with-grunt-and-yeoman-part-3/) to this repository.
 
 ### Special Notes:
 
