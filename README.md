@@ -43,7 +43,7 @@ Testing Libraries included and configured:
 
 * [Karma](http://karma-runner.github.io/)
 * [Istanbul](https://github.com/gotwarlost/istanbul)
-* [Mocha](http://visionmedia.github.io/mocha/)
+* [Mocha](http://mochajs.org/)
 * [Chai](http://chaijs.com/)
 * [Sinon-Chai](https://github.com/domenic/sinon-chai)
 * [Sinon](http://sinonjs.org/)
